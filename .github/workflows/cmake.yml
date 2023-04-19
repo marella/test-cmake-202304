@@ -1,0 +1,36 @@
+name: cmake
+on:
+  - workflow_dispatch
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: |
+          mkdir /gptj
+          cd /gptj
+          git clone https://github.com/marella/gptj.cpp
+          cd gptj.cpp
+          
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build . --config Release
+      - uses: git-actions/set-user@v1
+      - name: Save
+        run: |
+          cp /gptjbuild/src/libgptj.dylib lib
+          cp /gptj/build/ggml/src/libggml.dylib lib
+          git add --all
+          git commit -m 'Build ${{ matrix.os }}'
+          git push
