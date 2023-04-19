@@ -29,7 +29,7 @@ jobs:
       - uses: git-actions/set-user@v1
       - name: Save
         run: |
-          cp build/gptj.cpp/src/libgptj.dylib lib
+          cp build/gptj.cpp/build/src/libgptj.dylib lib
           cp build/gptj.cpp/build/ggml/src/libggml.dylib lib
           git add --all
           git commit -m 'Build ${{ matrix.os }}'
