@@ -20,17 +20,19 @@ jobs:
           git clone --recurse-submodules https://github.com/marella/gptj.cpp
           cd gptj.cpp
           
-          mkdir build
+          mkdir build lib
           cd build
           cmake ..
           cmake --build . --config Release
       - if: matrix.os == 'macos-latest'
+        run: |
+          cp gptj.cpp/build/src/libgptj.dylib lib
+          cp gptj.cpp/build/ggml/src/libggml.dylib lib
+      - if: matrix.os == 'macos-latest'
         uses: actions/upload-artifact@v3
         with:
           name: libraries
-          path: |
-            gptj.cpp/build/src/libgptj.dylib
-            gptj.cpp/build/ggml/src/libggml.dylib
+          path: lib
           if-no-files-found: error
 
   finish:
@@ -43,7 +45,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: libraries
-          path: lib
       - uses: git-actions/set-user@v1
       - name: Save
         run: |
