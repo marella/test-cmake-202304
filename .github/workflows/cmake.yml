@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-20.04
           - macos-latest
           - windows-latest
 
@@ -27,15 +27,15 @@ jobs:
           cd build
           cmake ..
           cmake --build . --config Release
-      - if: matrix.os == 'ubuntu-latest'
+      - if: runner.os == 'Linux'
         run: |
           cp gptj.cpp/build/src/libgptj.so build
           cp gptj.cpp/build/ggml/src/libggml.so build
-      - if: matrix.os == 'macos-latest'
+      - if: runner.os == 'macOS'
         run: |
           cp gptj.cpp/build/src/libgptj.dylib build
           cp gptj.cpp/build/ggml/src/libggml.dylib build
-      - if: matrix.os == 'windows-latest'
+      - if: runner.os == 'Windows'
         run: |
           cp gptj.cpp\build\bin\Release\gptj.dll build
           cp gptj.cpp\build\bin\Release\ggml.dll build
