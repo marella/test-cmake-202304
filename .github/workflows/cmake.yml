@@ -19,7 +19,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          git clone https://github.com/marella/gptj.cpp
+          git clone --recurse-submodules https://github.com/marella/gptj.cpp
           cd gptj.cpp
           
           mkdir build
