@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build
         run: |
-          mkdir /gptj
-          cd /gptj
+          mkdir build
+          cd build
           git clone https://github.com/marella/gptj.cpp
           cd gptj.cpp
           
@@ -29,8 +29,8 @@ jobs:
       - uses: git-actions/set-user@v1
       - name: Save
         run: |
-          cp /gptjbuild/src/libgptj.dylib lib
-          cp /gptj/build/ggml/src/libggml.dylib lib
+          cp build/gptj.cpp/src/libgptj.dylib lib
+          cp build/gptj.cpp/build/ggml/src/libggml.dylib lib
           git add --all
           git commit -m 'Build ${{ matrix.os }}'
           git push
