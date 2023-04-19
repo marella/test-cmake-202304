@@ -31,6 +31,8 @@ jobs:
         run: |
           cp build/gptj.cpp/build/src/libgptj.dylib lib
           cp build/gptj.cpp/build/ggml/src/libggml.dylib lib
+          rm -rf build
+
           git add --all
           git commit -m 'Build ${{ matrix.os }}'
           git push
