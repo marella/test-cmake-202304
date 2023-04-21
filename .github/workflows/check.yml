@@ -1,0 +1,32 @@
+name: check
+on:
+  - workflow_dispatch
+
+jobs:
+  check:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - if: startsWith(runner.os, 'Linux')
+        run: |
+          cat /proc/cpuinfo
+
+      - if: startsWith(runner.os, 'macOS')
+        run: |
+          sysctl machdep.cpu.features
+          sysctl machdep.cpu.leaf7_features
+
+      - if: startsWith(runner.os, 'Windows')
+        run: |
+           systeminfo.exe
