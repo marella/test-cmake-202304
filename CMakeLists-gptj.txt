@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.0)
 
 if(APPLE)
+  message(STATUS "APPLE detected")
   # Build a Universal binary on macOS
   set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "" FORCE)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mavx2")
