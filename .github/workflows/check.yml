@@ -27,6 +27,12 @@ jobs:
           sysctl -n machdep.cpu.brand_string
           sysctl machdep.cpu.features
           sysctl machdep.cpu.leaf7_features
+          
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build . --config Release
+          ./main
 
       - if: startsWith(runner.os, 'Windows')
         run: |
