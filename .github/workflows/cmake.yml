@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build
         run: |
-          mkdir build
+          mkdir out
           git clone --recurse-submodules https://github.com/marella/gptj.cpp
           cd gptj.cpp
           
@@ -29,20 +29,20 @@ jobs:
           cmake --build . --config Release
       - if: startsWith(runner.os, 'Linux')
         run: |
-          cp gptj.cpp/build/src/libgptj.so build
-          cp gptj.cpp/build/ggml/src/libggml.so build
+          cp gptj.cpp/build/src/libgptj.so out
+          cp gptj.cpp/build/ggml/src/libggml.so out
       - if: startsWith(runner.os, 'macOS')
         run: |
-          cp gptj.cpp/build/src/libgptj.dylib build
-          cp gptj.cpp/build/ggml/src/libggml.dylib build
+          cp gptj.cpp/build/src/libgptj.dylib out
+          cp gptj.cpp/build/ggml/src/libggml.dylib out
       - if: startsWith(runner.os, 'Windows')
         run: |
-          cp gptj.cpp\build\bin\Release\gptj.dll build
-          cp gptj.cpp\build\bin\Release\ggml.dll build
+          cp gptj.cpp\build\bin\Release\gptj.dll out
+          cp gptj.cpp\build\bin\Release\ggml.dll out
       - uses: actions/upload-artifact@v3
         with:
           name: libraries
-          path: build
+          path: out
           if-no-files-found: error
 
   finish:
