@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir out
           git clone --recurse-submodules https://github.com/marella/gptj.cpp
-          cp CMakeLists-gptj.txt gptj.cpp/CMakeLists.txt
+          cp CMakeLists-ggml.txt gptj.cpp/ggml/src/CMakeLists.txt
           cd gptj.cpp
           
           mkdir build
