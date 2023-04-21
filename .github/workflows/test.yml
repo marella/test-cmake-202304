@@ -1,0 +1,34 @@
+name: check
+on:
+  - workflow_dispatch
+
+jobs:
+  check:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          # - ubuntu-20.04
+          - macos-latest
+          # - windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - if: startsWith(runner.os, 'Linux')
+        run: |
+          cat /proc/cpuinfo
+
+      - if: startsWith(runner.os, 'macOS')
+        run: |
+          pip install gpt4all-j
+          wget https://gpt4all.io/models/ggml-gpt4all-j.bin
+          python3 test.py
+
+      - if: startsWith(runner.os, 'Windows')
+        run: |
+          wmic cpu get name
+          systeminfo.exe
