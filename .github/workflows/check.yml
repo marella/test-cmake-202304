@@ -24,9 +24,11 @@ jobs:
 
       - if: startsWith(runner.os, 'macOS')
         run: |
+          sysctl -n machdep.cpu.brand_string
           sysctl machdep.cpu.features
           sysctl machdep.cpu.leaf7_features
 
       - if: startsWith(runner.os, 'Windows')
         run: |
-           systeminfo.exe
+          wmic cpu get name
+          systeminfo.exe
