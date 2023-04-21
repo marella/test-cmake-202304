@@ -1,9 +1,11 @@
 name: build
 on:
+  - push
   - workflow_dispatch
 
 jobs:
   build:
+    if: github.actor != 'github-actions[bot]'
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
