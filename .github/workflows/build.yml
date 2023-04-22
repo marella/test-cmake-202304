@@ -16,10 +16,15 @@ jobs:
           - ubuntu-20.04
           - macos-latest
           - windows-latest
+        instructions:
+          - avx2
+          - avx
 
     steps:
       - uses: actions/checkout@v3
       - name: Build
+        env:
+          GPTJ_AVX2: ${{ maxtrix.instructions == 'avx2' && 'ON' || 'OFF' }}
         run: |
           mkdir out
           git clone --recurse-submodules https://github.com/marella/gptj.cpp
@@ -28,7 +33,7 @@ jobs:
           
           mkdir build
           cd build
-          cmake ..
+          cmake .. -DGPTJ_AVX2=$GPTJ_AVX2
           cmake --build . --config Release
       - if: startsWith(runner.os, 'Linux')
         run: |
@@ -42,6 +47,12 @@ jobs:
         run: |
           cp gptj.cpp\build\bin\Release\gptj.dll out
           cp gptj.cpp\build\bin\Release\ggml.dll out
+      - env:
+          GPTJ_DIR: ${{ maxtrix.instructions }}
+        run: |
+          mv out $GPTJ_DIR
+          mkdir out
+          mv $GPTJ_DIR out
       - uses: actions/upload-artifact@v3
         with:
           name: libraries
@@ -62,6 +73,7 @@ jobs:
       - uses: git-actions/set-user@v1
       - name: Save
         run: |
-          git add --all
+          ls lib/*
+          git add lib
           git commit -m 'Auto Build'
-          git push
+          # git push
