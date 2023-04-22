@@ -6,7 +6,7 @@ jobs:
   build:
     # Don't run when commit is being pushed from Github Actions to prevent endless recursion.
     if: ${{ !(github.event_name == 'push' && github.event.head_commit.author.name == 'github-actions[bot]') }}
-    name: ${{ matrix.os }}
+    name: ${{ matrix.os }} ${{ matrix.instructions }}
     runs-on: ${{ matrix.os }}
 
     strategy:
