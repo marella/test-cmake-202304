@@ -1,11 +1,8 @@
 cmake_minimum_required (VERSION 3.0)
 
 if(APPLE)
-  message(STATUS "APPLE detected")
   # Build a Universal binary on macOS
   set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "" FORCE)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfma -mavx2")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfma -mavx2")
 endif()
 
 project(gptj VERSION 0.1.0)
@@ -26,6 +23,8 @@ else()
 endif()
 
 # options
+
+option(GPTJ_AVX2                    "gptj: enable AVX2" ON)
 
 option(GGML_ALL_WARNINGS            "ggml: enable all compiler warnings"                   ON)
 option(GGML_ALL_WARNINGS_3RD_PARTY  "ggml: enable all compiler warnings in 3rd party libs" OFF)
