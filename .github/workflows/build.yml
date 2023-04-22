@@ -23,8 +23,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build
-        env:
-          GPTJ_AVX2: ${{ matrix.instructions == 'avx2' && 'ON' || 'OFF' }}
         run: |
           mkdir out
           git clone --recurse-submodules https://github.com/marella/gptj.cpp
@@ -33,7 +31,7 @@ jobs:
           
           mkdir build
           cd build
-          cmake .. -DGPTJ_AVX2=$GPTJ_AVX2
+          cmake .. -DGPTJ_AVX2=${{ matrix.instructions == 'avx2' && 'ON' || 'OFF' }}
           cmake --build . --config Release
       - if: startsWith(runner.os, 'Linux')
         run: |
@@ -47,12 +45,10 @@ jobs:
         run: |
           cp gptj.cpp\build\bin\Release\gptj.dll out
           cp gptj.cpp\build\bin\Release\ggml.dll out
-      - env:
-          GPTJ_DIR: ${{ matrix.instructions }}
-        run: |
-          mv out $GPTJ_DIR
+      - run: |
+          mv out ${{ matrix.instructions }}
           mkdir out
-          mv $GPTJ_DIR out
+          mv ${{ matrix.instructions }} out
       - uses: actions/upload-artifact@v3
         with:
           name: libraries
