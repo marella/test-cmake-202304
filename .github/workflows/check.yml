@@ -12,7 +12,7 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - macos-latest-xl
+          - macos-latest
           - windows-latest
 
     steps:
