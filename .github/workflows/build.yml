@@ -6,7 +6,7 @@ jobs:
   build:
     # Don't run when changes are being pushed from GitHub Actions to prevent endless recursion.
     if: ${{ !(github.event_name == 'push' && github.event.head_commit.author.name == 'github-actions[bot]') }}
-    name: ${{ matrix.os }} ${{ matrix.extensions }}
+    name: ${{ matrix.os }} ${{ matrix.instructions }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -16,7 +16,7 @@ jobs:
           - ubuntu-20.04
           - macos-latest
           - windows-latest
-        extensions:
+        instructions:
           - avx2
           - avx
 
@@ -34,7 +34,7 @@ jobs:
 
           mkdir build
           cd build
-          cmake .. -DGPTJ_AVX2=${{ matrix.extensions == 'avx2' && 'ON' || 'OFF' }}
+          cmake .. -DGPTJ_AVX2=${{ matrix.instructions == 'avx2' && 'ON' || 'OFF' }}
           cmake --build . --config Release
 
       - if: startsWith(runner.os, 'Linux')
@@ -53,9 +53,9 @@ jobs:
           cp gptj.cpp\build\bin\Release\ggml.dll tmp
 
       - run: |
-          mv tmp ${{ matrix.extensions }}
+          mv tmp ${{ matrix.instructions }}
           mkdir tmp
-          mv ${{ matrix.extensions }} tmp
+          mv ${{ matrix.instructions }} tmp
 
       - uses: actions/upload-artifact@v3
         with:
