@@ -69,7 +69,6 @@ jobs:
       - uses: git-actions/set-user@v1
       - name: Save
         run: |
-          ls lib/*
           git add lib
           git commit -m 'Auto Build'
-          # git push
+          git push
