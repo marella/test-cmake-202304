@@ -30,5 +30,6 @@ jobs:
 
       - if: startsWith(runner.os, 'Windows')
         run: |
-          wmic cpu get name
-          systeminfo.exe
+          pip3 install gpt4all-j
+          wget --quiet https://gpt4all.io/models/ggml-gpt4all-j.bin
+          python3 test.py
