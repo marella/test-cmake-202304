@@ -13,13 +13,13 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-20.04
+          - ubuntu-20.04
           - macos-latest
-          # - windows-latest
+          - windows-latest
         instructions:
-          # - avx2
-          # - avx
-          - universal
+          - avx2
+          - avx
+          - basic
 
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
 
           mkdir build
           cd build
-          cmake .. -DGPTJ_AVX2=${{ matrix.instructions == 'avx2' && 'ON' || 'OFF' }}
+          cmake .. -DGPTJ_INSTRUCTIONS=${{ matrix.instructions }}
           cmake --build . --config Release
 
       - if: startsWith(runner.os, 'Linux')
