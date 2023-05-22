@@ -11,9 +11,12 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-20.04
-          - macos-latest
-          - windows-latest
+          # - ubuntu-20.04
+          # - macos-latest
+          # - windows-latest
+          - macos-arm
+          - macos-arm64
+          - osx-arm64
 
     steps:
       - uses: actions/checkout@v3
